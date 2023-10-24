@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "dc004992-aa77-4b99-bacb-e2ecad59950d",
+		"name": "Trabajo Practico",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TP Programación Web  - GET(productos)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "localhost:5500/productos"
+			},
+			"response": []
+		},
+		{
+			"name": "TP Programación Web - GET(productos/id)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "localhost:5500/productos/1"
+			},
+			"response": []
+		},
+		{
+			"name": "TP Programación Web - POST(productos)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Nombre\": \"Filtro de aire\" ,\n    \"id\" : 4 ,\n    \"precio\" : 10.99 ,\n    \"stock\" : 200\n\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:5500/productos"
+			},
+			"response": []
+		},
+		{
+			"name": "TP Programación Web - PUT(productos)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 3 ,\n    \"precio\": 35.99 ,\n    \"stock\": 250\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:5500/productos"
+			},
+			"response": []
+		},
+		{
+			"name": "TP Programación Web - DELETE(productos/id)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "localhost:5500/productos/1"
+			},
+			"response": []
+		},
+		{
+			"name": "TP Programación Web - GET(Query Params) ",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:5500/productos?id=2",
+					"host": [
+						"localhost"
+					],
+					"port": "5500",
+					"path": [
+						"productos"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TP Programación Web - PUT(productos/id/op/cantidad)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "localhost:5500/productos/3/venta/5"
+			},
+			"response": []
+		},
+		{
+			"name": "TP Programación Web - Home",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "localhost:5500"
+			},
+			"response": []
+		}
+	]
+}
