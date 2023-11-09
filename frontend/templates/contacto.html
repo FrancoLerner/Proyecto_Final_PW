@@ -21,6 +21,7 @@
             <a href="./templates/login.html" class="login">iniciar sesion</a>
         </div>
     </header>
+
     <nav>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -55,8 +56,13 @@
             </div>
         </nav>
     </nav>
-
-
+    <div class="container">
+        <h2>Mandanos un mensaje por cualquier consulta o comentario:</h2>
+        <form action="procesar_pedido" method="POST">
+            <div class="form-group">
+                <label for="comentarios">Dejanos tu comentario:</label>
+                <textarea id="comentario" name="comentario" rows="4" required>
+            </div>
     <footer class="footer">
         <div class="datosfoot">
             <ul>
