@@ -3,16 +3,28 @@ import sqlite3
 
 app = Flask(__name__)
 
+usuario_valido = {'username': 'micromed', 'password': 'micromed'}
+
 productos = [
     {'id': 1, 'Nombre': 'Sustituto oseo', 'stock': 1000, 'precio': 35999},
     {'id': 2, 'Nombre': 'Microplacas', 'stock': 965, 'precio': 12999},
     {'id': 3, 'Nombre': 'Cranial Botton Peek', 'stock': 841, 'precio': 9999},
-    
+    {'id': 4, 'Nombre': 'Microbotton Peek', 'stock': 100, 'precio': 13500}
 ]
 
 @app.route('/')
 def home():
-    return 'Hola! Bienvenido a MicroMedSystem!'
+    return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+
+    if username == usuario_valido['username'] and password == usuario_valido['password']:
+        return 'Login successful!'
+    else:
+        return 'Login failed. Please check your username and password.'
 
 @app.route('/productos' , methods = ['GET'])
 def productosGet():
@@ -35,6 +47,18 @@ def productosGetUno(id):
     #    if producto['id'] == id:
      #       salida.append(producto)
     #return jsonify({"productos": salida, "status": "ok"})
+
+@app.route('/productos', methods=['POST'])
+def productoPost():
+    body = request.json
+    id = id['id']
+    nombre = body['Nombre']
+    stock = body['stock']
+    precio = body['precio']
+    productoAlta = {'id': id, 'Nombre': nombre, 'stock': stock, 'precio': precio}
+    productos.append(productoAlta)
+    return jsonify({"producto": productoAlta, "status": "ok"})
+
 
 @app.route('/procesar_pedido', methods=['POST'])
 def procesar_pedido():
