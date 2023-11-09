@@ -1,26 +1,18 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
+import sqlite3
 
 app = Flask(__name__)
 
 productos = [
-    {'id': 1, 'Nombre': 'Neumatico', 'stock': 100, 'precio': 79.999},
-    {'id': 2, 'Nombre': 'Valvula', 'stock': 50, 'precio': 9.999},
-    {'id': 3, 'Nombre': 'Pastillas de freno', 'stock': 200, 'precio': 14.999},
-    {'id': 4, 'Nombre': 'Bujías', 'stock': 75, 'precio': 15.999},
-    {'id': 5, 'Nombre': 'Filtro de aire', 'stock': 120, 'precio': 9.999},
-    {'id': 6, 'Nombre': 'Bateria', 'stock': 150, 'precio': 49.999},
-    {'id': 7, 'Nombre': 'Llantas', 'stock': 30, 'precio': 99.999},
-    {'id': 8, 'Nombre': 'Amortiguadores', 'stock': 25, 'precio': 40.999},
-    {'id': 9, 'Nombre': 'Correa de transmisión', 'stock': 60, 'precio': 10.999},
-    {'id': 10, 'Nombre': 'Filtros de aceite', 'stock': 80, 'precio': 3.999}
+    {'id': 1, 'Nombre': 'Sustituto oseo', 'stock': 1000, 'precio': 35999},
+    {'id': 2, 'Nombre': 'Microplacas', 'stock': 965, 'precio': 12999},
+    {'id': 3, 'Nombre': 'Cranial Botton Peek', 'stock': 841, 'precio': 9999},
     
 ]
 
-
-
 @app.route('/')
 def home():
-    return 'Hola! Bienvenido a Diesel Avellaneda!'
+    return 'Hola! Bienvenido a MicroMedSystem!'
 
 @app.route('/productos' , methods = ['GET'])
 def productosGet():
@@ -44,6 +36,31 @@ def productosGetUno(id):
      #       salida.append(producto)
     #return jsonify({"productos": salida, "status": "ok"})
 
+@app.route('/procesar_pedido', methods=['POST'])
+def procesar_pedido():
+    nombre = request.form['nombre']
+    productos_pedido = request.json['productos']
+
+    for producto_pedido in productos_pedido:
+        producto_id = producto_pedido['id']
+        cantidad_pedido = producto_pedido['cantidad']
+
+        for producto in productos:
+            if producto['id'] == producto_id:
+                if producto['stock'] >= cantidad_pedido:
+                    producto['stock'] -= cantidad_pedido
+                else:
+                    return jsonify({'message': 'Producto agotado'})
+
+    return jsonify({'message': 'Pedido procesado con éxito'})
+conn = sqlite3.connect('pedidos_pagina.db')
+c = conn.cursor()
+
+c.execute('INSERT INTO pedidos (nombre, direccion, forma_pago) VALUES (?, ?, ?)',
+("nombre", "direccion", "sustitutooseo", "microplacas", "cranialbottonpeek", "forma_pago"))
+
+conn.commit()
+conn.close()
 
 @app.route('/productos', methods=['POST'])
 def productosPost():
@@ -67,6 +84,18 @@ def productoPutUpdatePorPathString(id, op, cantidad):
             return jsonify({'producto': producto, 'status': 'ok'})
     return 'Producto no encontrado', 404
 
+@app.route('/productos/<string:product_name>', methods=['PUT'])
+def editProduct(product_name):
+    productsFound = [producto for producto in productos if producto['name'] == product_name]
+    if (len(productsFound) > 0):
+        productsFound[0]['name'] = request.json['name']
+        productsFound[0]['price'] = request.json['price']
+        productsFound[0]['quantity'] = request.json['quantity']
+        return jsonify({
+            'message': 'Product Updated',
+            'product': productsFound[0]
+        })
+    return jsonify({'message': 'Product Not found'})
 
 @app.route('/productos', methods=['PUT'])
 def productoPutUpdatePorBody():
